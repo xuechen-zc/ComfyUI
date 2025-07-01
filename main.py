@@ -1,3 +1,5 @@
+from sqlalchemy.sql.operators import from_
+
 import comfy.options
 comfy.options.enable_args_parsing()
 
@@ -297,7 +299,8 @@ def start_comfyui(asyncio_loop=None):
         exit(0)
 
     os.makedirs(folder_paths.get_temp_directory(), exist_ok=True)
-    call_on_start = None
+    from zhishi3d_install.zhishi3d_hook import zhishi3d_call_on_start
+    call_on_start = zhishi3d_call_on_start
     if args.auto_launch:
         def startup_server(scheme, address, port):
             import webbrowser
