@@ -299,7 +299,7 @@ def start_comfyui(asyncio_loop=None):
         exit(0)
 
     os.makedirs(folder_paths.get_temp_directory(), exist_ok=True)
-    from zhishi3d_install.zhishi3d_hook import zhishi3d_call_on_start
+    from zhishi3d.app import zhishi3d_call_on_start
     call_on_start = zhishi3d_call_on_start
     if args.auto_launch:
         def startup_server(scheme, address, port):
