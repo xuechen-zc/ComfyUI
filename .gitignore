@@ -13,7 +13,7 @@ extra_model_paths.yaml
 .idea/
 venv/
 .venv/
-/zhishi3d_comfyui/
+/zhishi3d/
 /web/extensions/*
 !/web/extensions/logging.js.example
 !/web/extensions/core/
