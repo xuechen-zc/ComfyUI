@@ -1,7 +1,7 @@
 from sqlalchemy.sql.operators import from_
 
 import comfy.options
-from zhishi3d_script.zhishi3d_compyui_util import kill_8188
+from zhishi3d_script.utils import kill_8188
 
 comfy.options.enable_args_parsing()
 
