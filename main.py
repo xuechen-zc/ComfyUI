@@ -2,6 +2,7 @@ from sqlalchemy.sql.operators import from_
 
 import comfy.options
 
+
 comfy.options.enable_args_parsing()
 
 import os
@@ -309,8 +310,8 @@ def start_comfyui(asyncio_loop=None):
 
     os.makedirs(folder_paths.get_temp_directory(), exist_ok=True)
     # 注入的逻辑 开始---------------------------------
-    from zhishi3d.utils.root import global_config
-    global_config.load("dev")
+    from zhishi3d.utils.root import init_config
+    init_config("dev")
     from zhishi3d.app import zhishi3d_call_on_start
     call_on_start = zhishi3d_call_on_start
     # 注入的逻辑 结束---------------------------------
@@ -332,9 +333,7 @@ def start_comfyui(asyncio_loop=None):
 
     # Returning these so that other code can integrate with the ComfyUI loop and server
     return asyncio_loop, prompt_server, start_all
-
-
-if __name__ == "__main__":
+def start_comfyui_app():
     # Running directly, just start ComfyUI.
     logging.info("Python version: {}".format(sys.version))
     logging.info("ComfyUI version: {}".format(comfyui_version.__version__))
@@ -352,3 +351,7 @@ if __name__ == "__main__":
         logging.info("\nStopped server")
 
     cleanup_temp()
+
+
+if __name__ == "__main__":
+    start_comfyui_app()
