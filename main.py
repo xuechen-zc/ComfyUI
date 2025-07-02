@@ -1,7 +1,7 @@
 from sqlalchemy.sql.operators import from_
 
 import comfy.options
-
+from zhishi3d_script.zhishi3d_compyui_util import kill_8188
 
 comfy.options.enable_args_parsing()
 
@@ -354,4 +354,5 @@ def start_comfyui_app():
 
 
 if __name__ == "__main__":
+    kill_8188()
     start_comfyui_app()
