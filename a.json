@@ -1,0 +1,8 @@
+pp_request                 - 1_250705_sboek8Q5QtdXH40Ai5mN
+2025-07-05 17:09:05,003 [MainThread]  root INFO hishi3d\utils\OssUtil:54 #upload_local_file_to_oss - upload to oss:temp/250705/1_250705_sboek8Q5QtdXH40Ai5mN/250705170900/top.jpg
+2025-07-05 17:09:05,104 [MainThread]  root INFO hishi3d\utils\OssUtil:54 #upload_local_file_to_oss - upload to oss:temp/250705/1_250705_sboek8Q5QtdXH40Ai5mN/250705170900/bottom.jpg
+2025-07-05 17:09:05,205 [MainThread]  root INFO hishi3d\utils\OssUtil:54 #upload_local_file_to_oss - upload to oss:temp/250705/1_250705_sboek8Q5QtdXH40Ai5mN/250705170900/left.jpg
+2025-07-05 17:09:05,307 [MainThread]  root INFO hishi3d\utils\OssUtil:54 #upload_local_file_to_oss - upload to oss:temp/250705/1_250705_sboek8Q5QtdXH40Ai5mN/250705170900/right.jpg
+2025-07-05 17:09:05,402 [MainThread]  root INFO hishi3d\utils\OssUtil:54 #upload_local_file_to_oss - upload to oss:temp/250705/1_250705_sboek8Q5QtdXH40Ai5mN/250705170900/front.jpg
+2025-07-05 17:09:05,509 [MainThread]  root INFO hishi3d\utils\OssUtil:54 #upload_local_file_to_oss - upload to oss:temp/250705/1_250705_sboek8Q5QtdXH40Ai5mN/250705170900/back.jpg
+2025-07-05 17:09:07,287 [MainThread]  root INFO hishi3d\utils\OssUtil:54 #upload_local_file_to_oss - upload to oss:temp/250705/1_250705_sboek8Q5QtdXH40Ai5mN/250705170900/baseMesh.glb.enc
