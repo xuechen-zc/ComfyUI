@@ -13,13 +13,23 @@ if not exist "%TEMP_DIR%" (
 :: 强制覆盖临时脚本文件
 copy /Y "%~f0" "%TEMP_SCRIPT%"
 
-:: 在临时目录中启动新的 cmd 进程来执行脚本
-start cmd /k "%TEMP_SCRIPT%"
+:: 判断当前是否已经是主脚本
+set IS_MAIN_SCRIPT=0
+for %%f in (%0) do (
+    set FILE_NAME=%%~nxf
+)
+if "%FILE_NAME%"=="temp_script.bat" (
+    set IS_MAIN_SCRIPT=1
+)
 
-:: 提示用户操作完成后按任意键继续
-echo.
-echo 请在新窗口中完成操作后按任意键继续...
-pause >nul
+:: 如果是第一次执行主脚本，启动新的窗口来执行脚本
+if %IS_MAIN_SCRIPT%==0 (
+    start cmd /k "%TEMP_SCRIPT%"
+    echo.
+    echo 请在新窗口中完成操作后按任意键继续...
+    pause >nul
+    goto end
+)
 
 :: 临时脚本开始
 
