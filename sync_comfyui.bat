@@ -1,6 +1,9 @@
 @echo off
 setlocal enabledelayedexpansion
 
+:: 进入脚本所在目录
+cd /d "%~dp0"
+
 :: 设置分支名
 set DEV_BRANCH=dev
 set MASTER_BRANCH=master
@@ -30,7 +33,7 @@ if %errorlevel% neq 0 (
 
 echo.
 echo ==== Step 3: 切换到 master 并合并 upstream/master ====
-git checkout %MASTER_BRANCH%
+git checkout %MASTER_BRANCH% 2>nul
 if %errorlevel% neq 0 (
     echo ❌ 无法切换到 master 分支。
     goto end
@@ -44,7 +47,7 @@ git push %ORIGIN_NAME% %MASTER_BRANCH%
 
 echo.
 echo ==== Step 4: 切换回 dev 并合并 master ====
-git checkout %DEV_BRANCH%
+git checkout %DEV_BRANCH% 2>nul
 if %errorlevel% neq 0 (
     echo ❌ 无法切换到 dev 分支。
     goto end
