@@ -7,6 +7,7 @@ set TEMP_SCRIPT=%TEMP_DIR%\temp_script.bat
 
 :: 获取当前脚本所在目录并保存
 set ORIGINAL_DIR=%~dp0
+echo Original Directory: %ORIGINAL_DIR%
 
 :: 确保临时目录存在
 if not exist "%TEMP_DIR%" (
@@ -27,7 +28,7 @@ if "%FILE_NAME%"=="temp_script.bat" (
 
 :: 如果是第一次执行主脚本，启动新的窗口来执行脚本
 if %IS_MAIN_SCRIPT%==0 (
-    start cmd /k "%TEMP_SCRIPT%"
+    start cmd /k "%TEMP_SCRIPT% %ORIGINAL_DIR%"
     echo.
     echo 请在新窗口中完成操作后按任意键继续...
     pause >nul
@@ -36,8 +37,15 @@ if %IS_MAIN_SCRIPT%==0 (
 
 :: 临时脚本开始
 
+:: 读取传递的原始目录
+set ORIGINAL_DIR=%1
+
+:: 输出当前目录用于调试
+echo Current Directory before cd: %CD%
+
 :: 使用保存的目录进入Git仓库
 cd /d "%ORIGINAL_DIR%"
+echo Current Directory after cd: %CD%
 
 :: 确保当前目录是一个 Git 仓库
 git rev-parse --is-inside-work-tree >nul 2>&1
@@ -110,4 +118,3 @@ echo 请按任意键关闭窗口...
 pause >nul
 
 :: 临时脚本结束
-
