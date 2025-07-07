@@ -54,6 +54,33 @@ if %errorlevel% neq 0 (
     goto end
 )
 
+:: 检查是否有本地修改
+git status --porcelain >nul
+if %errorlevel% equ 0 (
+    :: 检查是否有修改
+    for /f "delims=" %%i in ('git status --porcelain') do (
+        set HAS_CHANGES=1
+    )
+) else (
+    set HAS_CHANGES=0
+)
+
+:: 如果有本地更改，则执行 commit
+if %HAS_CHANGES%==1 (
+    echo.
+    echo 检测到本地更改，正在提交...
+    git add .
+    git commit -m "自动提交：合并前提交本地更改"
+    if %errorlevel% neq 0 (
+        echo ❌ 提交本地更改失败。
+        goto end
+    )
+    echo ✅ 本地更改已提交。
+) else (
+    echo.
+    echo 没有本地更改，跳过提交。
+)
+
 :: 设置分支名
 set DEV_BRANCH=dev
 set MASTER_BRANCH=master
