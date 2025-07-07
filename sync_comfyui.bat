@@ -5,13 +5,16 @@ setlocal enabledelayedexpansion
 set TEMP_DIR=%TEMP%\temp_git_script
 set TEMP_SCRIPT=%TEMP_DIR%\temp_script.bat
 
+:: 获取当前脚本所在目录并保存
+set ORIGINAL_DIR=%~dp0
+
 :: 确保临时目录存在
 if not exist "%TEMP_DIR%" (
     mkdir "%TEMP_DIR%"
 )
 
 :: 强制覆盖临时脚本文件
-copy /Y "%~f0" "%TEMP_SCRIPT%"
+copy /Y "%~f0" "%TEMP_SCRIPT%" >nul
 
 :: 判断当前是否已经是主脚本
 set IS_MAIN_SCRIPT=0
@@ -33,8 +36,8 @@ if %IS_MAIN_SCRIPT%==0 (
 
 :: 临时脚本开始
 
-:: 进入脚本所在目录（假设脚本路径就是Git仓库的根目录）
-cd /d "%~dp0"
+:: 使用保存的目录进入Git仓库
+cd /d "%ORIGINAL_DIR%"
 
 :: 确保当前目录是一个 Git 仓库
 git rev-parse --is-inside-work-tree >nul 2>&1
@@ -107,3 +110,4 @@ echo 请按任意键关闭窗口...
 pause >nul
 
 :: 临时脚本结束
+
