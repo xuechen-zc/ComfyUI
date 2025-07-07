@@ -1,6 +1,28 @@
 @echo off
 setlocal enabledelayedexpansion
 
+:: 设置临时目录，用于保存脚本副本
+set TEMP_DIR=%TEMP%\temp_git_script
+set TEMP_SCRIPT=%TEMP_DIR%\temp_script.bat
+
+:: 确保临时目录存在
+if not exist "%TEMP_DIR%" (
+    mkdir "%TEMP_DIR%"
+)
+
+:: 强制覆盖临时脚本文件
+copy /Y "%~f0" "%TEMP_SCRIPT%"
+
+:: 在临时目录中启动新的 cmd 进程来执行脚本
+start cmd /k "%TEMP_SCRIPT%"
+
+:: 提示用户操作完成后按任意键继续
+echo.
+echo 请在新窗口中完成操作后按任意键继续...
+pause >nul
+
+:: 临时脚本开始
+
 :: 进入脚本所在目录
 cd /d "%~dp0"
 
@@ -66,3 +88,5 @@ echo ✅ 所有操作完成，当前分支仍为 %DEV_BRANCH%
 echo.
 echo 请按任意键关闭窗口...
 pause >nul
+
+:: 临时脚本结束
