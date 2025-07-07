@@ -33,8 +33,15 @@ if %IS_MAIN_SCRIPT%==0 (
 
 :: 临时脚本开始
 
-:: 进入脚本所在目录
+:: 进入脚本所在目录（假设脚本路径就是Git仓库的根目录）
 cd /d "%~dp0"
+
+:: 确保当前目录是一个 Git 仓库
+git rev-parse --is-inside-work-tree >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ❌ 当前目录不是一个 Git 仓库。请确认该脚本在 Git 仓库中运行。
+    goto end
+)
 
 :: 设置分支名
 set DEV_BRANCH=dev
