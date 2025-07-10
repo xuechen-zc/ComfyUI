@@ -1,12 +1,13 @@
 {
-  "gid": "1_250709_4451iCdGOVWaZUReZ9nS",
+  "gid": "1_250711_8jLwerukywnrQO2cYRvz",
+  "imageUri": "/system/test/back.jpg",
   "level1Name": "测试1级类目",
   "level3Name": "测试3级类目",
-  "promptEn": "A detailed, futuristic helmet with intricate patterns, smooth metallic surfaces, and illuminated accents, covering the entire head and featuring a sleek visor promptEn",
-  "tagsEn": "A detailed, futuristic helmet with intricate patterns, smooth metallic surfaces, and illuminated accents, covering the entire head and featuring a sleek visor tagsEn",
-  "tagsZh": "A detailed, futuristic helmet with intricate patterns, smooth metallic surfaces, and illuminated accents, covering the entire head and featuring a sleek visor tagsZh",
+  "promptEn": "啊啊 promptEn",
+  "tagsEn": "啊啊 tagsEn",
   "taskState": "DONE",
   "mv": {
+    "front": "/system/test/front.jpg",
     "back": "/system/test/back.jpg",
     "left": "/system/test/left.jpg",
     "right": "/system/test/right.jpg",
@@ -17,6 +18,7 @@
     "baseMeshUri": "/system/test/baseMesh.glb.enc",
     "uvMeshUri": "/system/test/uvMesh.glb.enc"
   },
-  "promptLocal": "A detailed, futuristic helmet with intricate patterns, smooth metallic surfaces, and illuminated accents, covering the entire head and featuring a sleek visor promptLocal",
+  "promptLang": "啊啊 promptLang",
+  "tagsLang": "啊啊 tagsLang",
   "auditState": "DONE"
 }
