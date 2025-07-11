@@ -1,24 +1,12 @@
 {
-  "gid": "1_250711_8jLwerukywnrQO2cYRvz",
-  "imageUri": "/system/test/back.jpg",
-  "level1Name": "测试1级类目",
-  "level3Name": "测试3级类目",
-  "promptEn": "啊啊 promptEn",
-  "tagsEn": "啊啊 tagsEn",
-  "taskState": "DONE",
-  "mv": {
-    "front": "/system/test/front.jpg",
-    "back": "/system/test/back.jpg",
-    "left": "/system/test/left.jpg",
-    "right": "/system/test/right.jpg",
-    "top": "/system/test/top.jpg",
-    "bottom": "/system/test/bottom.jpg"
-  },
-  "mesh": {
-    "baseMeshUri": "/system/test/baseMesh.glb.enc",
-    "uvMeshUri": "/system/test/uvMesh.glb.enc"
-  },
-  "promptLang": "啊啊 promptLang",
-  "tagsLang": "啊啊 tagsLang",
-  "auditState": "DONE"
+  "gid": "1_250711_PR1pMDl8gjN4DWxluCHl",
+  "lang": "en",
+  "prompt": "bbbbbbbbbb",
+  "referenceUris": [
+    "/temp/250711/upload/0_250711_9tgiextLcbgJaxaqvWAn.jpg"
+  ],
+  "subtask": "20250711081721",
+  "userId": 16,
+  "workDir": "temp/250711/1_250711_PR1pMDl8gjN4DWxluCHl/20250711081721",
+  "workflow": "main_view"
 }
