@@ -1,7 +1,7 @@
 
 
 import comfy.options
-from zhishi3d.script.utils import kill_8188
+from zhishi3d.script.utils import start_checker
 
 comfy.options.enable_args_parsing()
 
@@ -379,5 +379,5 @@ def start_comfyui_app():
 
 
 if __name__ == "__main__":
-    kill_8188()
+    start_checker()
     start_comfyui_app()
