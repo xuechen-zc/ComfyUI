@@ -1,12 +1,18 @@
 {
-  "gid": "1_250711_PR1pMDl8gjN4DWxluCHl",
-  "lang": "en",
-  "prompt": "bbbbbbbbbb",
-  "referenceUris": [
-    "/temp/250711/upload/0_250711_9tgiextLcbgJaxaqvWAn.jpg"
-  ],
-  "subtask": "20250711081721",
-  "userId": 16,
-  "workDir": "temp/250711/1_250711_PR1pMDl8gjN4DWxluCHl/20250711081721",
-  "workflow": "main_view"
+  "gid": "1_250714_zK3BPDEw7vXkv8wkZaMc",
+  "imageUri": "/system/test/back.jpg",
+  "taskState": "DONE",
+  "mv": {
+    "front": "/system/test/front.jpg",
+    "back": "/system/test/back.jpg",
+    "left": "/system/test/left.jpg",
+    "right": "/system/test/right.jpg",
+    "top": "/system/test/top.jpg",
+    "bottom": "/system/test/bottom.jpg"
+  },
+  "mesh": {
+    "baseMeshUri": "/system/test/baseMesh.glb.enc",
+    "uvMeshUri": "/system/test/uvMesh.glb.enc"
+  },
+  "auditState": "DONE"
 }
