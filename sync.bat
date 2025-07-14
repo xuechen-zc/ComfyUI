@@ -18,16 +18,14 @@ if not exist "%TEMP_DIR%" (
 :: 强制覆盖临时脚本文件
 copy /Y "%~f0" "%TEMP_SCRIPT%" >nul
 
-:: 判断当前是否已经是主脚本
-set "IS_MAIN_SCRIPT=0"
-for %%f in (%0) do (
-    set "FILE_NAME=%%~nxf"
-)
-if "!FILE_NAME!"=="temp_script.bat" (
+:: 判断是否已经在临时副本中运行
+if /I "%~f0"=="%TEMP_SCRIPT%" (
     set "IS_MAIN_SCRIPT=1"
+) else (
+    set "IS_MAIN_SCRIPT=0"
 )
 
-:: 如果是第一次执行主脚本，启动新的窗口来执行脚本
+:: 如果是第一次执行主脚本，启动新的窗口来执行脚本副本
 if %IS_MAIN_SCRIPT%==0 (
     start "" cmd /k "%TEMP_SCRIPT% \"%ORIGINAL_DIR%\""
     echo.
@@ -81,7 +79,7 @@ if %HAS_CHANGES%==1 (
 set "DEV_BRANCH=dev"
 set "MASTER_BRANCH=master"
 
-:: 设置上游仓库地址（不要改动这个，除非你知道自己在做什么）
+:: 设置上游仓库地址
 set "UPSTREAM_URL=https://github.com/comfyanonymous/ComfyUI.git"
 set "UPSTREAM_NAME=upstream"
 set "ORIGIN_NAME=origin"
