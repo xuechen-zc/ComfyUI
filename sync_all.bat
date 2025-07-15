@@ -80,4 +80,3 @@ pause
 
 :end
 endlocal
-exit
