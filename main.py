@@ -356,6 +356,7 @@ def start_comfyui(asyncio_loop=None):
                 address = '127.0.0.1'
             if ':' in address:
                 address = "[{}]".format(address)
+
             webbrowser.open(f"{scheme}://{address}:{port}")
 
         call_on_start = startup_server
