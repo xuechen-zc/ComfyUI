@@ -2,6 +2,7 @@
 
 import comfy.options
 from zhishi3d.script.utils import start_checker
+from zhishi3d.utils.root import global_config
 
 comfy.options.enable_args_parsing()
 
@@ -348,6 +349,7 @@ def start_comfyui(asyncio_loop=None):
     init_config("dev")
     from zhishi3d.app import zhishi3d_call_on_start
     call_on_start = zhishi3d_call_on_start
+    global_config.build_address(args.port)
     # 注入的逻辑 结束---------------------------------
     if args.auto_launch:
         def startup_server(scheme, address, port):
@@ -362,6 +364,7 @@ def start_comfyui(asyncio_loop=None):
         call_on_start = startup_server
 
     async def start_all():
+
         await prompt_server.setup()
         await run(prompt_server, address=args.listen, port=args.port, verbose=not args.dont_print_server,
                   call_on_start=call_on_start)
