@@ -2,7 +2,7 @@ import sys
 
 
 def get_port_postfix():
-    postfix = ""
+    postfix = "_8188"
     for arg in sys.argv[1:]:
         if arg.startswith('--port='):
             try:

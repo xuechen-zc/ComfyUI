@@ -50,11 +50,12 @@ folder_names_and_paths["classifiers"] = ([os.path.join(models_dir, "classifiers"
 
 folder_names_and_paths["model_patches"] = ([os.path.join(models_dir, "model_patches")], supported_pt_extensions)
 
-output_directory = os.path.join(base_path, "output")
-
-temp_directory = os.path.join(base_path, "temp"+get_port_postfix())
+output_directory = os.path.join(base_path, "output"+get_port_postfix())
 os.makedirs(output_directory, exist_ok=True)
-input_directory = os.path.join(base_path, "input")
+temp_directory = os.path.join(base_path, "temp"+get_port_postfix())
+os.makedirs(temp_directory, exist_ok=True)
+input_directory = os.path.join(base_path, "input"+get_port_postfix())
+os.makedirs(input_directory, exist_ok=True)
 user_directory = os.path.join(base_path, "user")
 
 filename_list_cache: dict[str, tuple[list[str], dict[str, float], float]] = {}
