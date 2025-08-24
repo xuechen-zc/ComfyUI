@@ -348,8 +348,10 @@ def start_comfyui(asyncio_loop=None):
     from zhishi3d.utils.root import init_config
     init_config("dev")
     from zhishi3d.app import zhishi3d_call_on_start
+    from zhishi3d_root_util import get_comfyui_port
     call_on_start = zhishi3d_call_on_start
-    global_config.build_address(args.port)
+    global_config.server_port =get_comfyui_port()
+    global_config.server_address ="127.0.0.1:"+get_comfyui_port()
     # 注入的逻辑 结束---------------------------------
     if args.auto_launch:
         def startup_server(scheme, address, port):
@@ -366,7 +368,7 @@ def start_comfyui(asyncio_loop=None):
     async def start_all():
 
         await prompt_server.setup()
-        await run(prompt_server, address=args.listen, port=args.port, verbose=not args.dont_print_server,
+        await run(prompt_server, address=args.listen, port=get_comfyui_port(), verbose=not args.dont_print_server,
                   call_on_start=call_on_start)
 
     # Returning these so that other code can integrate with the ComfyUI loop and server

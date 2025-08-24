@@ -1,14 +1,14 @@
 import sys
 
 
-def get_port_postfix():
-    postfix = "_8188"
+def get_comfyui_port():
+    subfolder = "8188"
     for arg in sys.argv[1:]:
         if arg.startswith('--port='):
             try:
                 port = int(arg.split('=', 1)[1])
-                postfix = f"_{port}"
+                subfolder = f"{port}"
             except ValueError:
-                postfix = ""
+                subfolder = ""
             break
-    return postfix
+    return subfolder

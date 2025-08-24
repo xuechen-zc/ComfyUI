@@ -8,8 +8,6 @@ from typing import Literal, List
 from collections.abc import Collection
 
 from comfy.cli_args import args
-from zhishi3d.utils.OsUtil import mkdir
-from zhishi3d_root_util import get_port_postfix
 
 supported_pt_extensions: set[str] = {'.ckpt', '.pt', '.pt2', '.bin', '.pth', '.safetensors', '.pkl', '.sft'}
 
@@ -49,12 +47,12 @@ folder_names_and_paths["photomaker"] = ([os.path.join(models_dir, "photomaker")]
 folder_names_and_paths["classifiers"] = ([os.path.join(models_dir, "classifiers")], {""})
 
 folder_names_and_paths["model_patches"] = ([os.path.join(models_dir, "model_patches")], supported_pt_extensions)
-
-output_directory = os.path.join(base_path, "output"+get_port_postfix())
+from zhishi3d_root_util import get_comfyui_port
+output_directory = os.path.join(base_path, "output", get_comfyui_port())
 os.makedirs(output_directory, exist_ok=True)
-temp_directory = os.path.join(base_path, "temp"+get_port_postfix())
+temp_directory = os.path.join(base_path, "temp", get_comfyui_port())
 os.makedirs(temp_directory, exist_ok=True)
-input_directory = os.path.join(base_path, "input"+get_port_postfix())
+input_directory = os.path.join(base_path, "input", get_comfyui_port())
 os.makedirs(input_directory, exist_ok=True)
 user_directory = os.path.join(base_path, "user")
 
