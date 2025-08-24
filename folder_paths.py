@@ -8,6 +8,7 @@ from typing import Literal, List
 from collections.abc import Collection
 
 from comfy.cli_args import args
+from zhishi3d.utils.OsUtil import mkdir
 from zhishi3d_root_util import get_port_postfix
 
 supported_pt_extensions: set[str] = {'.ckpt', '.pt', '.pt2', '.bin', '.pth', '.safetensors', '.pkl', '.sft'}
@@ -52,6 +53,7 @@ folder_names_and_paths["model_patches"] = ([os.path.join(models_dir, "model_patc
 output_directory = os.path.join(base_path, "output")
 
 temp_directory = os.path.join(base_path, "temp"+get_port_postfix())
+os.makedirs(output_directory, exist_ok=True)
 input_directory = os.path.join(base_path, "input")
 user_directory = os.path.join(base_path, "user")
 

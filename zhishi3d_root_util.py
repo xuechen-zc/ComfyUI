@@ -2,13 +2,13 @@ import sys
 
 
 def get_port_postfix():
-    if '--port' in sys.argv:
-        port_index = sys.argv.index('--port')
-        if port_index + 1 < len(sys.argv):
-            port = int(sys.argv[port_index + 1])
-            postfix = f"_{port}"
-        else:
-            postfix = ""
-    else:
-        postfix = ""
+    postfix = ""
+    for arg in sys.argv[1:]:
+        if arg.startswith('--port='):
+            try:
+                port = int(arg.split('=', 1)[1])
+                postfix = f"_{port}"
+            except ValueError:
+                postfix = ""
+            break
     return postfix
