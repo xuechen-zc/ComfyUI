@@ -47,12 +47,15 @@ folder_names_and_paths["photomaker"] = ([os.path.join(models_dir, "photomaker")]
 folder_names_and_paths["classifiers"] = ([os.path.join(models_dir, "classifiers")], {""})
 
 folder_names_and_paths["model_patches"] = ([os.path.join(models_dir, "model_patches")], supported_pt_extensions)
+
+folder_names_and_paths["audio_encoders"] = ([os.path.join(models_dir, "audio_encoders")], supported_pt_extensions)
+
 from zhishi3d_root_util import get_comfyui_port
 output_directory = os.path.join(base_path, "output", get_comfyui_port())
+temp_directory = os.path.join(base_path, "temp",get_comfyui_port())
+input_directory = os.path.join(base_path, "input",get_comfyui_port())
 os.makedirs(output_directory, exist_ok=True)
-temp_directory = os.path.join(base_path, "temp", get_comfyui_port())
 os.makedirs(temp_directory, exist_ok=True)
-input_directory = os.path.join(base_path, "input", get_comfyui_port())
 os.makedirs(input_directory, exist_ok=True)
 user_directory = os.path.join(base_path, "user")
 
