@@ -1,9 +1,4 @@
-
-
 import comfy.options
-from zhishi3d.script.utils import start_checker
-from zhishi3d.utils.root import global_config
-
 comfy.options.enable_args_parsing()
 
 import os
@@ -21,12 +16,11 @@ from comfy_execution.utils import get_executing_context
 from comfy_api import feature_flags
 
 if __name__ == "__main__":
-    # NOTE: These do not do anything on core ComfyUI, they are for custom nodes.
+    #NOTE: These do not do anything on core ComfyUI, they are for custom nodes.
     os.environ['HF_HUB_DISABLE_TELEMETRY'] = '1'
     os.environ['DO_NOT_TRACK'] = '1'
 
 setup_logger(log_level=args.verbose, use_stdout=args.log_stdout)
-
 
 def apply_custom_paths():
     # extra model paths
@@ -91,8 +85,7 @@ def execute_prestartup_script():
             script_path = os.path.join(module_path, "prestartup_script.py")
             if os.path.exists(script_path):
                 if args.disable_all_custom_nodes and possible_module not in args.whitelist_custom_nodes:
-                    logging.info(
-                        f"Prestartup Skipping {possible_module} due to disable_all_custom_nodes and whitelist_custom_nodes")
+                    logging.info(f"Prestartup Skipping {possible_module} due to disable_all_custom_nodes and whitelist_custom_nodes")
                     continue
                 time_before = time.perf_counter()
                 success = execute_script(script_path)
@@ -107,9 +100,9 @@ def execute_prestartup_script():
             logging.info("{:6.1f} seconds{}: {}".format(n[0], import_message, n[1]))
         logging.info("")
 
-
 apply_custom_paths()
 execute_prestartup_script()
+
 
 # Main code
 import asyncio
@@ -117,9 +110,10 @@ import shutil
 import threading
 import gc
 
+
 if os.name == "nt":
-    logging.getLogger("xformers").addFilter(
-        lambda record: 'A matching Triton is not available' not in record.getMessage())
+    os.environ['MIMALLOC_PURGE_DELAY'] = '0'
+    logging.getLogger("xformers").addFilter(lambda record: 'A matching Triton is not available' not in record.getMessage())
 
 if __name__ == "__main__":
     if args.default_device is not None:
@@ -160,7 +154,6 @@ import comfyui_version
 import app.logger
 import hook_breaker_ac10a0
 
-
 def cuda_malloc_warning():
     device = comfy.model_management.get_torch_device()
     device_name = comfy.model_management.get_torch_device_name(device)
@@ -170,8 +163,7 @@ def cuda_malloc_warning():
             if b in device_name:
                 cuda_malloc_warning = True
         if cuda_malloc_warning:
-            logging.warning(
-                "\nWARNING: this card most likely does not support cuda-malloc, if you get \"CUDA error\" please run ComfyUI with: --disable-cuda-malloc\n")
+            logging.warning("\nWARNING: this card most likely does not support cuda-malloc, if you get \"CUDA error\" please run ComfyUI with: --disable-cuda-malloc\n")
 
 
 def prompt_worker(q, server_instance):
@@ -208,8 +200,7 @@ def prompt_worker(q, server_instance):
                             completed=e.success,
                             messages=e.status_messages))
             if server_instance.client_id is not None:
-                server_instance.send_sync("executing", {"node": None, "prompt_id": prompt_id},
-                                          server_instance.client_id)
+                server_instance.send_sync("executing", {"node": None, "prompt_id": prompt_id}, server_instance.client_id)
 
             current_time = time.perf_counter()
             execution_time = current_time - execution_start_time
@@ -260,7 +251,6 @@ def hijack_progress(server_instance):
         if node_id is None and executing_context is not None:
             node_id = executing_context.node_id
         comfy.model_management.throw_exception_if_processing_interrupted()
-
         if prompt_id is None:
             prompt_id = server_instance.last_prompt_id
         if node_id is None:
@@ -282,7 +272,6 @@ def hijack_progress(server_instance):
                     server_instance.client_id,
                 )
 
-
     comfy.utils.set_progress_bar_global_hook(hook)
 
 
@@ -298,8 +287,7 @@ def setup_database():
         if dependencies_available():
             init_db()
     except Exception as e:
-        logging.error(
-            f"Failed to initialize database. Please ensure you have installed the latest requirements. If the error persists, please report this as in future the database will be required: {e}")
+        logging.error(f"Failed to initialize database. Please ensure you have installed the latest requirements. If the error persists, please report this as in future the database will be required: {e}")
 
 
 def start_comfyui(asyncio_loop=None):
@@ -344,15 +332,7 @@ def start_comfyui(asyncio_loop=None):
         exit(0)
 
     os.makedirs(folder_paths.get_temp_directory(), exist_ok=True)
-    # 注入的逻辑 开始---------------------------------
-    from zhishi3d.utils.root import init_config
-    init_config("dev")
-    from zhishi3d.app import zhishi3d_call_on_start
-    from zhishi3d_root_util import get_comfyui_port
-    call_on_start = zhishi3d_call_on_start
-    global_config.server_port =get_comfyui_port()
-    global_config.server_address ="127.0.0.1:"+get_comfyui_port()
-    # 注入的逻辑 结束---------------------------------
+    call_on_start = None
     if args.auto_launch:
         def startup_server(scheme, address, port):
             import webbrowser
@@ -360,27 +340,24 @@ def start_comfyui(asyncio_loop=None):
                 address = '127.0.0.1'
             if ':' in address:
                 address = "[{}]".format(address)
-
             webbrowser.open(f"{scheme}://{address}:{port}")
-
         call_on_start = startup_server
 
     async def start_all():
-
         await prompt_server.setup()
-        await run(prompt_server, address=args.listen, port=get_comfyui_port(), verbose=not args.dont_print_server,
-                  call_on_start=call_on_start)
+        await run(prompt_server, address=args.listen, port=args.port, verbose=not args.dont_print_server, call_on_start=call_on_start)
 
     # Returning these so that other code can integrate with the ComfyUI loop and server
     return asyncio_loop, prompt_server, start_all
-def start_comfyui_app():
+
+
+if __name__ == "__main__":
     # Running directly, just start ComfyUI.
     logging.info("Python version: {}".format(sys.version))
     logging.info("ComfyUI version: {}".format(comfyui_version.__version__))
 
     if sys.version_info.major == 3 and sys.version_info.minor < 10:
-        logging.warning(
-            "WARNING: You are using a python version older than 3.10, please upgrade to a newer one. 3.12 and above is recommended.")
+        logging.warning("WARNING: You are using a python version older than 3.10, please upgrade to a newer one. 3.12 and above is recommended.")
 
     event_loop, _, start_all_func = start_comfyui()
     try:
@@ -391,8 +368,3 @@ def start_comfyui_app():
         logging.info("\nStopped server")
 
     cleanup_temp()
-
-
-if __name__ == "__main__":
-    start_checker()
-    start_comfyui_app()
