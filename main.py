@@ -376,7 +376,4 @@ def start_comfyui_app():
 
     cleanup_temp()
 if __name__ == "__main__":
-    from zhishi3d.script.utils import start_checker
-
-    start_checker()
     start_comfyui_app()
