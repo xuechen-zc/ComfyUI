@@ -7,6 +7,7 @@ import glob
 import shutil
 import logging
 from aiohttp import web
+
 from urllib import parse
 from comfy.cli_args import args
 import folder_paths
@@ -40,8 +41,10 @@ class UserManager():
         if not os.path.exists(user_directory):
             os.makedirs(user_directory, exist_ok=True)
             if not args.multi_user:
-                logging.warning("****** User settings have been changed to be stored on the server instead of browser storage. ******")
-                logging.warning("****** For multi-user setups add the --multi-user CLI argument to enable multiple user profiles. ******")
+                logging.warning(
+                    "****** User settings have been changed to be stored on the server instead of browser storage. ******")
+                logging.warning(
+                    "****** For multi-user setups add the --multi-user CLI argument to enable multiple user profiles. ******")
 
         if args.multi_user:
             if os.path.isfile(self.get_users_file()):
@@ -233,38 +236,36 @@ class UserManager():
                 logging.warning(f"Failed to decode path parameter: {requested_rel_path}, Error: {e}")
                 return web.Response(status=400, text="Invalid characters in path parameter")
 
-
             # Check user validity and get the absolute path for the requested directory
             try:
-                 base_user_path = self.get_request_user_filepath(request, None, create_dir=False)
+                base_user_path = self.get_request_user_filepath(request, None, create_dir=False)
 
-                 if requested_rel_path:
-                     target_abs_path = self.get_request_user_filepath(request, requested_rel_path, create_dir=False)
-                 else:
-                     target_abs_path = base_user_path
+                if requested_rel_path:
+                    target_abs_path = self.get_request_user_filepath(request, requested_rel_path, create_dir=False)
+                else:
+                    target_abs_path = base_user_path
 
             except KeyError as e:
-                 # Invalid user detected by get_request_user_id inside get_request_user_filepath
-                 logging.warning(f"Access denied for user: {e}")
-                 return web.Response(status=403, text="Invalid user specified in request")
-
+                # Invalid user detected by get_request_user_id inside get_request_user_filepath
+                logging.warning(f"Access denied for user: {e}")
+                return web.Response(status=403, text="Invalid user specified in request")
 
             if not target_abs_path:
-                 # Path traversal or other issue detected by get_request_user_filepath
-                 return web.Response(status=400, text="Invalid path requested")
+                # Path traversal or other issue detected by get_request_user_filepath
+                return web.Response(status=400, text="Invalid path requested")
 
             # Handle cases where the user directory or target path doesn't exist
             if not os.path.exists(target_abs_path):
                 # Check if it's the base user directory that's missing (new user case)
                 if target_abs_path == base_user_path:
                     # It's okay if the base user directory doesn't exist yet, return empty list
-                     return web.json_response([])
+                    return web.json_response([])
                 else:
                     # A specific subdirectory was requested but doesn't exist
-                     return web.Response(status=404, text="Requested path not found")
+                    return web.Response(status=404, text="Requested path not found")
 
             if not os.path.isdir(target_abs_path):
-                 return web.Response(status=400, text="Requested path is not a directory")
+                return web.Response(status=400, text="Requested path is not a directory")
 
             results = []
             try:
@@ -289,12 +290,12 @@ class UserManager():
                             "type": "file"
                         }
                         try:
-                            stats = os.stat(file_path) # Use os.stat for potentially better performance with os.walk
+                            stats = os.stat(file_path)  # Use os.stat for potentially better performance with os.walk
                             entry_info["size"] = stats.st_size
                             entry_info["modified"] = stats.st_mtime
                         except OSError as stat_error:
                             logging.warning(f"Could not stat file {file_path}: {stat_error}")
-                            pass # Include file with available info
+                            pass  # Include file with available info
                         results.append(entry_info)
             except OSError as e:
                 logging.error(f"Error listing directory {target_abs_path}: {e}")
@@ -305,7 +306,7 @@ class UserManager():
 
             return web.json_response(results)
 
-        def get_user_data_path(request, check_exists = False, param = "file"):
+        def get_user_data_path(request, check_exists=False, param="file"):
             file = request.match_info.get(param, None)
             if not file:
                 return web.Response(status=400)

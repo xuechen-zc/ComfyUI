@@ -332,12 +332,12 @@ def start_comfyui(asyncio_loop=None):
 
     os.makedirs(folder_paths.get_temp_directory(), exist_ok=True)
     # 注入的逻辑 开始---------------------------------
-    from zhishi3d.utils.root import init_config
+    from zhishi3d.root import init_config
     init_config("dev")
     from zhishi3d.app import zhishi3d_call_on_start
     from zhishi3d_root_util import get_comfyui_port
     call_on_start = zhishi3d_call_on_start
-    from zhishi3d.utils.root import global_config
+    from zhishi3d.root import global_config
     global_config.server_port = get_comfyui_port()
     global_config.server_address = "127.0.0.1:" + get_comfyui_port()
     # 注入的逻辑 结束---------------------------------
