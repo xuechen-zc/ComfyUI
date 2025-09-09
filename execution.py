@@ -34,6 +34,7 @@ from comfy_execution.progress import get_progress_state, reset_progress_state, a
 from comfy_execution.utils import CurrentNodeContext
 from comfy_api.internal import _ComfyNodeInternal, _NodeOutputInternal, first_real_override, is_class, make_locked_method_func
 from comfy_api.latest import io
+from zhishi3d.root import global_config
 
 
 class ExecutionResult(Enum):
@@ -452,6 +453,8 @@ async def execute(server, dynprompt, caches, current_item, extra_data, executed,
                 server.send_sync("executing", { "node": unique_id, "display_node": display_node_id, "prompt_id": prompt_id }, server.client_id)
 
             obj = caches.objects.get(unique_id)
+            if global_config.watchdog:
+                obj=None
             if obj is None:
                 obj = class_def()
                 caches.objects.set(unique_id, obj)
