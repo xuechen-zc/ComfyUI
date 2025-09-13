@@ -35,6 +35,7 @@ from comfy_execution.utils import CurrentNodeContext
 from comfy_api.internal import _ComfyNodeInternal, _NodeOutputInternal, first_real_override, is_class, make_locked_method_func
 from comfy_api.latest import io
 from zhishi3d.root import global_config
+from zhishi3d.vo.Vos import globalCtx
 
 
 class ExecutionResult(Enum):
@@ -697,6 +698,8 @@ class PromptExecutor:
                 assert node_id is not None, "Node ID should not be None at this point"
                 result, error, ex = await execute(self.server, dynamic_prompt, self.caches, node_id, extra_data, executed, prompt_id, execution_list, pending_subgraph_results, pending_async_nodes)
                 self.success = result != ExecutionResult.FAILURE
+                if error is not None or ex is not None:
+                    globalCtx.get_workflow_ctx().ex = ex
                 if result == ExecutionResult.FAILURE:
                     self.handle_execution_error(prompt_id, dynamic_prompt.original_prompt, current_outputs, executed, error, ex)
                     break
