@@ -2127,7 +2127,6 @@ async def load_custom_node(module_path: str, ignore=set(), module_parent="custom
         module = importlib.util.module_from_spec(module_spec)
         sys.modules[sys_module_name] = module
         module_spec.loader.exec_module(module)
-
         LOADED_MODULE_DIRS[module_name] = os.path.abspath(module_dir)
 
         try:
