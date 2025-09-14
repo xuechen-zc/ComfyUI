@@ -19,6 +19,8 @@ from PIL.PngImagePlugin import PngInfo
 import numpy as np
 import safetensors.torch
 
+from zhishi3d.vo.Vos import globalCtx
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "comfy"))
 
 import comfy.diffusers_load
@@ -1638,6 +1640,9 @@ class LoadImage:
     RETURN_TYPES = ("IMAGE", "MASK")
     FUNCTION = "load_image"
     def load_image(self, image):
+        if globalCtx.get_workflow_ctx() is not None and not globalCtx.get_workflow_ctx().mock:
+            return (None, None)
+
         image_path = folder_paths.get_annotated_filepath(image)
 
         img = node_helpers.pillow(Image.open, image_path)
@@ -1694,6 +1699,8 @@ class LoadImage:
 
     @classmethod
     def VALIDATE_INPUTS(s, image):
+        if globalCtx.get_workflow_ctx() is not None and not globalCtx.get_workflow_ctx().mock:
+            return True
         if not folder_paths.exists_annotated_filepath(image):
             return "Invalid image file: {}".format(image)
 
