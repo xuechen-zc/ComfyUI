@@ -486,7 +486,10 @@ class VAE:
                 self.latent_dim = 1
 
                 def estimate_memory(shape, dtype, num_layers = 16, kv_cache_multiplier = 2):
-                    batch, num_tokens, hidden_dim = shape
+                    try:
+                        batch, num_tokens, hidden_dim = shape
+                    except Exception as e:
+                        print(e)
                     dtype_size = model_management.dtype_size(dtype)
 
                     total_mem = batch * num_tokens * hidden_dim * dtype_size * (1 + kv_cache_multiplier * num_layers)
