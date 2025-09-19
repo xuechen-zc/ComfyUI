@@ -93,7 +93,21 @@ if %errorlevel% neq 0 (
 ) else (
     echo 已存在 upstream 远程。
 )
+echo.
+echo ==== Step 1.5: 拉取 origin/dev 最新内容 ====
+git checkout %DEV_BRANCH% 2>nul
+if %errorlevel% neq 0 (
+    echo ❌ 无法切换到 %DEV_BRANCH% 分支。
+    goto end
+)
 
+git fetch %ORIGIN_NAME%
+git pull %ORIGIN_NAME% %DEV_BRANCH%
+if %errorlevel% neq 0 (
+    echo ❌ 拉取 origin/%DEV_BRANCH% 失败。
+    goto end
+)
+echo ✅ 已更新本地 %DEV_BRANCH% 到远端最新状态。
 echo.
 echo ==== Step 2: 获取 upstream 最新内容 ====
 git fetch %UPSTREAM_NAME%
