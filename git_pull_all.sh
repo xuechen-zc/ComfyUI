@@ -5,30 +5,21 @@ set -e
 # 获取脚本所在目录的绝对路径 (也就是 ComfyUI 根目录)
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# 子目录
-ZHISHI3D="$SCRIPT_DIR/zhishi3d"
-HUNYUAN="$SCRIPT_DIR/custom_nodes/ComfyUI-Hunyuan3d-2-1"
-MANAGER="$SCRIPT_DIR/custom_nodes/ComfyUI-Manager"
-WRAPPER="$SCRIPT_DIR/custom_nodes/ComfyUI-Hunyuan3DWrapper"
+# 需要更新的子目录（相对脚本目录）
+REPOS=(
+  "."                                # ComfyUI 主程序
+  "zhishi3d"
+  "custom_nodes/ComfyUI-Hunyuan3d-2-1"
+  "custom_nodes/ComfyUI-Manager"
+  "custom_nodes/ComfyUI-Hunyuan3DWrapper"
+)
 
-echo "更新 ComfyUI 主程序..."
-cd "$SCRIPT_DIR"
-git pull
-
-echo "更新 zhishi3d..."
-cd "$ZHISHI3D"
-git pull
-
-echo "更新 ComfyUI-Hunyuan3d-2-1..."
-cd "$HUNYUAN"
-git pull
-
-echo "更新 ComfyUI-Manager..."
-cd "$MANAGER"
-git pull
-
-echo "更新 ComfyUI-Hunyuan3DWrapper..."
-cd "$WRAPPER"
-git pull
+for repo in "${REPOS[@]}"; do
+  echo "更新 $repo ..."
+  cd "$SCRIPT_DIR/$repo"
+  git reset --hard
+  git clean -fd
+  git pull
+done
 
 echo "全部更新完成 ✅"
