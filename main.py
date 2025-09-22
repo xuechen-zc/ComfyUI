@@ -1,4 +1,6 @@
 import comfy.options
+from zhishi3d.root import log_info
+
 comfy.options.enable_args_parsing()
 
 import os
@@ -330,7 +332,6 @@ def start_comfyui(asyncio_loop=None):
 
     if args.quick_test_for_ci:
         exit(0)
-
     os.makedirs(folder_paths.get_temp_directory(), exist_ok=True)
     # 注入的逻辑 开始---------------------------------
     from zhishi3d.root import init_config

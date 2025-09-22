@@ -2247,6 +2247,8 @@ async def init_external_custom_nodes():
                 import_message = ""
             else:
                 import_message = " (IMPORT FAILED)"
+                logging.error("IMPORT FAILED")
+                exit(-1)
             logging.info("{:6.1f} seconds{}: {}".format(n[0], import_message, n[1]))
         logging.info("")
 
