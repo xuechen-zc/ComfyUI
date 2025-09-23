@@ -12,6 +12,9 @@ extra_model_paths.yaml
 .vscode/
 .idea/
 venv/
+*.png
+*.jpg
+*.glb
 .venv/
 /zhishi3d/
 /web/extensions/*
