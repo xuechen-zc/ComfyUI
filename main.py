@@ -373,7 +373,16 @@ def start_comfyui(asyncio_loop=None):
         exit(0)
 
     os.makedirs(folder_paths.get_temp_directory(), exist_ok=True)
-    call_on_start = None
+    # 注入的逻辑 开始---------------------------------
+    from zhishi3d.root import init_config
+    init_config("dev")
+    from zhishi3d.app import zhishi3d_call_on_start
+    from zhishi3d.zhishi3d_root_util import get_comfyui_port
+    call_on_start = zhishi3d_call_on_start
+    from zhishi3d.root import global_config
+    global_config.server_port = get_comfyui_port()
+    global_config.server_address = "127.0.0.1:" + get_comfyui_port()
+    # 注入的逻辑 结束---------------------------------
     if args.auto_launch:
         def startup_server(scheme, address, port):
             import webbrowser
@@ -386,7 +395,7 @@ def start_comfyui(asyncio_loop=None):
 
     async def start_all():
         await prompt_server.setup()
-        await run(prompt_server, address=args.listen, port=args.port, verbose=not args.dont_print_server, call_on_start=call_on_start)
+        await run(prompt_server, address=args.listen, port=get_comfyui_port(), verbose=not args.dont_print_server, call_on_start=call_on_start)
 
     # Returning these so that other code can integrate with the ComfyUI loop and server
     return asyncio_loop, prompt_server, start_all
