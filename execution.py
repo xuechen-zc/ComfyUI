@@ -36,6 +36,7 @@ from comfy_execution.progress import get_progress_state, reset_progress_state, a
 from comfy_execution.utils import CurrentNodeContext
 from comfy_api.internal import _ComfyNodeInternal, _NodeOutputInternal, first_real_override, is_class, make_locked_method_func
 from comfy_api.latest import io, _io
+from zhishi3d.vo.Vos import globalCtx
 
 
 class ExecutionResult(Enum):
@@ -594,6 +595,9 @@ async def execute(server, dynprompt, caches, current_item, extra_data, executed,
                 input_data_formatted[name] = [format_value(x) for x in inputs]
 
         logging.error(f"!!! Exception during processing !!! {ex}")
+        if globalCtx.get_workflow_ctx() is not None:
+            globalCtx.get_workflow_ctx().exception=ex
+            globalCtx.get_workflow_ctx().exceptionMessage=str(ex)
         logging.error(traceback.format_exc())
         tips = ""
 
