@@ -19,6 +19,8 @@ venv/
 !/web/extensions/core/
 /tests-ui/data/object_info.json
 /user/
+*.png
+*.glb
 *.log
 web_custom_versions/
 .DS_Store
