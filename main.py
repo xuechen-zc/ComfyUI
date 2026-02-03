@@ -1,4 +1,6 @@
 import comfy.options
+from zhishi3d.zhishi3d_root_util import get_comfyui_port
+
 comfy.options.enable_args_parsing()
 
 import os
@@ -406,6 +408,9 @@ def start_comfyui(asyncio_loop=None):
 
 if __name__ == "__main__":
     # Running directly, just start ComfyUI.
+    from zhishi3d.script.utils import kill_port
+
+    kill_port(get_comfyui_port())
     logging.info("Python version: {}".format(sys.version))
     logging.info("ComfyUI version: {}".format(comfyui_version.__version__))
 
